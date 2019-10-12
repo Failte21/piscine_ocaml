@@ -12,8 +12,8 @@ let test number =
   end
 
 let main () =
-  test(42);
-  test(0);
-  test(-1)
+  test 42;
+  test 0;
+  test (-1)
 
 let () = main ()

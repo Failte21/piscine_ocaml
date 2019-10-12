@@ -21,8 +21,9 @@ let test arg =
   end
 
 let main () =
-  test(12);
-  test(5);
-  test(-15)
+  test 15;
+  test 5;
+  test 0;
+  test (-15)
 
 let () = main ()
