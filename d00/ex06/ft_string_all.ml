@@ -7,15 +7,19 @@ let ft_string_all predicate s =
     else
       predicate (String.get s i)
   in
-  loop predicate s (String.length s - 1)
+  let len = String.length s in
+  if len = 0 then
+    false
+  else
+    loop predicate s (len - 1)
 
 let is_digit c =
   c >= '0' && c <= '9'
 
 let test s =
-  print_string "[Test ";
+  print_string "Test \"";
   print_string s;
-  print_string "]: ";
+  print_string "\": ";
   if ft_string_all is_digit s then
     print_string "True\n"
   else
@@ -23,11 +27,12 @@ let test s =
 
 
 let main () =
-  print_endline "Is digit";
+  print_endline "Tests with is_digit:\n";
   test "Hello";
   test "1234";
   test "Hello 1234";
   test "1234 Hello";
-  test "   987"
+  test "   987";
+  test ""
 
 let () = main ()
