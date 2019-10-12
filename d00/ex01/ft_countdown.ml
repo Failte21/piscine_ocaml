@@ -1,4 +1,4 @@
-let rec ft_countdown (number) =
+let rec ft_countdown number =
   if number <= 0
   then
     begin
@@ -9,15 +9,15 @@ let rec ft_countdown (number) =
     begin
       print_int number;
       print_char '\n';
-      ft_countdown(number - 1)
+      ft_countdown (number - 1)
     end
 
-let test (arg) =
+let test arg =
   begin
     print_string "[test ";
     print_int arg;
     print_endline "]:";
-    ft_countdown(arg)
+    ft_countdown arg
   end
 
 let main () =
