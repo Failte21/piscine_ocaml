@@ -6,18 +6,21 @@ let ft_print_rev s =
     if i > 0 then
       loop s (i - 1)
   in
-  loop s (String.length(s) - 1);
+  let len = String.length s in
+  if len > 0 then
+    loop s (String.length(s) - 1);
   print_char '\n'
 
-let test s = 
-  print_string "[Test ";
+let test s =
+  print_string "Test \"";
   print_string s;
-  print_string "]: ";
+  print_string "\": ";
   ft_print_rev s
 
 let main () =
   test "Hello, world!";
   test "Open the gates!";
-  test "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  test "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+  test ""
   
 let () = main ()
