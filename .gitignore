@@ -1,0 +1,8 @@
+# Ocaml stuff
+a.out
+*.o
+*.cmx
+*.cmi
+
+# ide stuff
+.vscode
