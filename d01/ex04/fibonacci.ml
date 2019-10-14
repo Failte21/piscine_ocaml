@@ -1,7 +1,10 @@
-let rec fibonacci n =
-  if n < 0 then (-1)
-  else if n = 0 then 0
-  else if n = 1 then 1 else (fibonacci (n - 2) + fibonacci (n - 1))
+let fibonacci n =
+  if n < 0 then (-1) else
+  let rec fi_aux x a b =
+    if x = 0 then a
+    else if x = 1 then b
+    else fi_aux (x - 1) b (a + b) in
+  fi_aux n 0 1
 
 let test n =
   print_string "Test with ";
