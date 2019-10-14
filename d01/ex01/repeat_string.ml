@@ -12,7 +12,8 @@ let rec repeat_string ?(str="x") n =
 let test ?(str="x") n =
   print_string "Test with ";
   print_string "[";
-  if str != "x" then print_string str; print_char ' ';
+  if str <> "x" then print_string str;
+  if str <> "x" then print_char ' ';
   print_int n;
   print_string "]: ";
   if str = "x" then print_endline (repeat_string n)
@@ -20,6 +21,9 @@ let test ?(str="x") n =
 
 let main () =
   test ~str:"hello " 3;
-  test 5
+  test 5;
+  test (-5);
+  test ~str:"Yolo" (-5);
+  test ~str:"Open the gates" 0
   
 let () = main ()
