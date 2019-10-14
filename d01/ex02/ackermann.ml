@@ -1,5 +1,8 @@
 (* If any argument given to the function is negative, the function must return -1. *)
 
+(* This function is very heavy to compute and will cause a stack
+overflow if given unreasonable input. Remember, this is expected. *)
+
 let rec ackermann m n =
   if m < 0 || n < 0 then -1 else
   if m = 0 then (n + 1)
