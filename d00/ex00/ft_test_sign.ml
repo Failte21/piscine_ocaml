@@ -5,7 +5,7 @@ let ft_test_sign number =
 
 let test number =
   begin
-    print_string "[test ";
+    print_string "test with [";
     print_int number;
     print_string "]: ";
     ft_test_sign number;

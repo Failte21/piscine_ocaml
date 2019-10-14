@@ -1,3 +1,5 @@
+(* Both parameters will always be positives or equal to 0 *)
+
 let ft_power a b =
   if b = 0 then
     1
@@ -19,7 +21,7 @@ let ft_power a b =
 
 
 let test a b =
-  print_string "[test ";
+  print_string "test with [";
   print_int a;
   print_char '^';
   print_int b;

@@ -1,3 +1,5 @@
+(* Allowed functions : char_of_int, int_of_char and print_char *)
+
 let ft_print_alphabet () =
   let rec loop letter =
     print_char letter;

@@ -1,3 +1,5 @@
+(* Allowed functions : print_int and print_string *)
+
 let ft_print_comb () =
   let rec loop a b c =
     print_int a;
@@ -27,6 +29,3 @@ let ft_print_comb () =
 let main () = ft_print_comb()
   
 let () = main ()
-
-(* allowed: print_string *)
-(* allowed: print_int *)

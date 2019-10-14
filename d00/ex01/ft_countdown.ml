@@ -14,7 +14,7 @@ let rec ft_countdown number =
 
 let test arg =
   begin
-    print_string "[test ";
+    print_string "test with [";
     print_int arg;
     print_endline "]:";
     ft_countdown arg
