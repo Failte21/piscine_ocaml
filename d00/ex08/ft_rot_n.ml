@@ -1,30 +1,41 @@
 (* Allowed functions: char_of_int, int_of_char, String.map *)
 (* Input: n always positive *)
 
-let ascii_rot n c =
-  let z_int = int_of_char 'z' in
+let ascii_rot n c a_int =
   let c_int = int_of_char c in
-  if c_int + n <= z_int then
-    char_of_int (c_int + n)
-  else
-    let e = z_int - c_int - 1 in
-    char_of_int (c_int + e)
+  let base = c_int - a_int + n in
+  let result = base mod 26 in
+  char_of_int (a_int + result)
+
+let rot n c =
+  let a_low_int = int_of_char 'a' in
+  let z_low_int = int_of_char 'z' in
+  let a_cap_int = int_of_char 'A' in
+  let z_cap_int = int_of_char 'Z' in
+  let c_int = int_of_char c in
+  let a_int =
+    if c_int >= a_low_int && c_int <= z_low_int then a_low_int
+    else if c_int >= a_cap_int && c_int <= z_cap_int then a_cap_int
+    else 0 in
+  if a_int = 0 then c else ascii_rot n c a_int  
 
 let ft_rot_n n str =
-  let z_int = int_of_char 'z' in
-  let a_int = int_of_char 'a' in
-  let size = z_int - a_int in
-  let safe_n = if n > size then 0 else n in
-  String.map (ascii_rot safe_n) str
+  String.map (rot n) str
 
 let test i s =
-  print_string "Test \"";
+  print_string "Test with [";
+  print_int i;
+  print_char ' ';
   print_string s;
-  print_string "\": ";
+  print_string "]: ";
   print_endline (ft_rot_n i s)
 
 let main () =
   test 1 "abcdefghijklmnopqrstuvwxyz";
-  test 42 "123456789"
+  test 42 "123456789";
+  test 75 "hello";
+  test 75 "Yolo";
+  test 1 "NBzlk qnbjr !";
+  test 0 "Damned !"
   
 let () = main ()
