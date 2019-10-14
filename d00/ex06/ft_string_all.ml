@@ -17,9 +17,9 @@ let is_digit c =
   c >= '0' && c <= '9'
 
 let test s =
-  print_string "Test \"";
+  print_string "Test with [";
   print_string s;
-  print_string "\": ";
+  print_string "]: ";
   if ft_string_all is_digit s then
     print_string "True\n"
   else
