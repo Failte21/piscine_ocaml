@@ -24,6 +24,7 @@ let main () =
   test 5;
   test (-5);
   test ~str:"Yolo" (-5);
-  test ~str:"Open the gates" 0
+  test ~str:"Open the gates" 0;
+  test ~str:"" 10
   
 let () = main ()
