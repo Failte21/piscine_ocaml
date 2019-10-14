@@ -1,5 +1,8 @@
 (* If given a negative argument, your functions must return -1. *)
 
+(* Obviously, each sequence must be implemented only once. Implementing
+them more than once means you have failed the exercise. *)
+
 let rec hfs_f n =
   if n < 0 then -1 else
   if n = 0 then 1 else
