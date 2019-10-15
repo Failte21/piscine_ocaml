@@ -1,17 +1,17 @@
 (* If given a negative argument, your functions must return -1. *)
 
 (* Obviously, each sequence must be implemented only once. Implementing
-them more than once means you have failed the exercise. *)
+   them more than once means you have failed the exercise. *)
 
 let rec hfs_f n =
   if n < 0 then -1 else
   if n = 0 then 1 else
-  (n - (hfs_m (hfs_f (n - 1)) ))
+    (n - (hfs_m (hfs_f (n - 1)) ))
 
 and hfs_m n =
   if n < 0 then -1 else
   if n = 0 then 0 else
-  (n - (hfs_f (hfs_m (n - 1))))
+    (n - (hfs_f (hfs_m (n - 1))))
 
 let get_f fname =
   if fname = "hfs_f" then hfs_f else hfs_m
@@ -33,5 +33,5 @@ let main () =
   print_char '\n';
   print_endline "The first few terms of the \"female\" sequence:";
   List.iter (test hfs_f) (-5--max)
-  
+
 let () = main ()

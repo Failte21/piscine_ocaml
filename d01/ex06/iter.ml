@@ -4,7 +4,7 @@ let rec iter f x n =
   if n < 0 then (-1) else
   if n = 0 then x else
   if n = 1 then (f x) else
-  iter f (f x) (n - 1)
+    iter f (f x) (n - 1)
 
 let test f x n =
   print_string "Test with ";
@@ -29,5 +29,5 @@ let main () =
   test (fun x -> x * 2) 5 0;
   test (fun x -> x * 2) 5 (-1);
   test (fun x -> x * 2) (-5) 2
-  
+
 let () = main ()
