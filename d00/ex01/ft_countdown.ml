@@ -1,3 +1,5 @@
+(* Allowed functions : print_int and print_char *)
+
 let rec ft_countdown number =
   if number <= 0
   then
@@ -24,6 +26,7 @@ let main () =
   test 15;
   test 5;
   test 0;
-  test (-15)
+  test (-15);
+  test (1)
 
 let () = main ()
