@@ -22,26 +22,30 @@ let print_pair pfa pfb (a, b) =
 let print_pair_int_x = print_pair print_int
 let print_pair_int_char = print_pair_int_x print_char
 
-let print_pair_list l =
+let print_list pf l =
   print_char '[';
   let rec print_pair_list_aux l =
     match l with
     | [] -> ()
-    | [t] -> (print_pair_int_char t);
-    | h::t -> (print_pair_int_char h); print_char ' '; print_pair_list_aux t in
+    | [t] -> (pf t);
+    | h::t -> (pf h); print_char ' '; print_pair_list_aux t in
   print_pair_list_aux l;
   print_endline "]"
 
-let test argname arg =
+let print_pair_int_char_list = print_list print_pair_int_char
+
+let test pf argname arg =
   print_string "Test with ";
   print_string "[";
   print_string argname;
   print_string "]: ";
-  print_pair_list (encode arg)
+  pf (encode arg)
+
+let test_int_char = test print_pair_int_char_list
 
 let main () =
-  test "['a'; 'a'; 'a'; 'b'; 'b']" ['a'; 'a'; 'a'; 'b'; 'b'];
-  test "['a'; 'c'; 'd'; 'c'; 'b']" ['a'; 'c'; 'd'; 'c'; 'b'];
-  test "[]" []
+  test_int_char "['a'; 'a'; 'a'; 'b'; 'b']" ['a'; 'a'; 'a'; 'b'; 'b'];
+  test_int_char "['a'; 'c'; 'd'; 'c'; 'b']" ['a'; 'c'; 'd'; 'c'; 'b'];
+  test_int_char "[]" []
   
 let () = main ()
