@@ -12,9 +12,9 @@ let ft_print_rev s =
   print_char '\n'
 
 let test s =
-  print_string "Test \"";
+  print_string "Test [";
   print_string s;
-  print_string "\": ";
+  print_string "]: ";
   ft_print_rev s
 
 let main () =
