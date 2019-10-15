@@ -16,29 +16,22 @@ and hfs_m n =
 let get_f fname =
   if fname = "hfs_f" then hfs_f else hfs_m
 
-let test fname n =
-  let f = get_f fname in
-  print_string "Test with ";
-  print_string "[";
-  print_string fname;
-  print_char ' ';
-  print_int n;
-  print_string "]: ";
+let max = 20
+
+let test f n =
   print_int (f n);
-  print_char '\n'
+  if n < max then print_string ", " else print_char '\n'
+
+let (--) i j =
+  let rec aux n acc =
+    if n < i then acc else aux (n-1) (n :: acc) in
+  aux j []
 
 let main () =
-  test "hfs_m" 0;
-  (* 0 *)
-  test "hfs_f" 0;
-  (* 1 *)
-  test "hfs_m" 4;
-  (* 2 *)
-  test "hfs_f" 4;
-  (* 3 *)
-  test "hfs_f" (-1);
-  (* 3 *)
-  test "hfs_f" (-1)
-  (* 3 *)
+  print_endline "The first few terms of the \"male\" sequence:";
+  List.iter (test hfs_m) (-5--max);
+  print_char '\n';
+  print_endline "The first few terms of the \"female\" sequence:";
+  List.iter (test hfs_f) (-5--max)
   
 let () = main ()
