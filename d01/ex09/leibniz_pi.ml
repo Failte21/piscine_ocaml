@@ -10,15 +10,13 @@ let leibniz_pi delta =
   let rec loop i acc =
     print_float (4.0 *. acc);
     print_char '\n';
-    if i == 1000 then i
-    else
-      let result = (f i) +. acc in
-      (* let diff = pi -. (4.0 *. result) in
-      let diff_abs = if diff > 0.0 then diff else -.diff in
-      if diff_abs < delta then i *)
-      loop (i + 1) (result) in
+    let result = (f i) +. acc in
+    let diff = pi -. (4.0 *. result) in
+    let diff_abs = if diff > 0.0 then diff else -.diff in
+    if diff_abs < delta then i
+    else loop (i + 1) (result) in
   loop 0 0.0
 
-let main () = print_int (leibniz_pi 3.14)
+let main () = print_int (leibniz_pi 0.001)
   
 let () = main ()
