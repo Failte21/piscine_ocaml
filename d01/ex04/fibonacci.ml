@@ -18,6 +18,8 @@ let main () =
   test (-42);
   test 1;
   test 2;
-  test 6
+  test 6;
+  test 0;
+  test 50
   
 let () = main ()
