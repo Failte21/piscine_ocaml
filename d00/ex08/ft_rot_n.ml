@@ -36,6 +36,7 @@ let main () =
   test 75 "hello";
   test 75 "Yolo";
   test 1 "NBzlk qnbjr !";
-  test 0 "Damned !"
+  test 0 "Damned !";
+  test 8 "@!#$%DF"
   
 let () = main ()
