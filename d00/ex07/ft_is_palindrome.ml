@@ -7,16 +7,13 @@ let is_eq s i =
 
 let ft_is_palindrome s =
   let rec loop s i =
-    if i > 0 then
-      loop s (i - 1) && is_eq s i
-    else
+    if i = 0 then
       is_eq s i
-  in
+    else
+      is_eq s i && loop s (i - 1) in
   let len = String.length s in
-  if len = 0 then
-    true
-  else
-    loop s (len - 1)
+  if len = 0 then true
+  else loop s (len - 1)
 
 let test s =
   print_string "Test \"";
