@@ -2,10 +2,10 @@
 
 let ft_string_all predicate s =
   let rec loop predicate s i =
-    if i > 0 then
-      predicate (String.get s i) && (loop predicate s (i - 1))
-    else
+    if i = 0 then
       predicate (String.get s i)
+    else
+      predicate (String.get s i) && (loop predicate s (i - 1))
   in
   let len = String.length s in
   if len = 0 then
