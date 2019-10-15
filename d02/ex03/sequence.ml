@@ -22,17 +22,23 @@ let sequence n =
   if n <= 0 then "" else
   if n = 1 then "1" else
   let rec loop l n =
-    if n = 1 then encode l
+    if n = 0 then l
     else loop (encode l) (n - 1) in
   arr_to_str (loop [1] (n - 1))
 
+let test n =
+  print_string "Test with ";
+  print_string "[";
+  print_int n;
+  print_string "]: ";
+  print_endline (sequence n)
+
+let (--) i j =
+  let rec aux n acc =
+    if n < i then acc else aux (n-1) (n :: acc) in
+  aux j []
+
 let main () =
-  print_endline (sequence 1);
-  print_endline (sequence 2);
-  print_endline (sequence 3);
-  print_endline (sequence 4);
-  print_endline (sequence 5);
-  print_endline (sequence 6);
-  print_endline (sequence 7)
+  List.iter test (-3--15)
   
 let () = main ()
