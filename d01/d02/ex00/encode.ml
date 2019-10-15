@@ -22,15 +22,26 @@ let print_pair pfa pfb (a, b) =
 let print_pair_int_x = print_pair print_int
 let print_pair_int_char = print_pair_int_x print_char
 
-let rec print_list l =
-  match l with
-  | [] -> ()
-  | [t] -> (print_pair_int_char t); print_char '\n';
-  | h::t -> (print_pair_int_char h); print_char ' '; print_list t
+let print_pair_list l =
+  print_char '[';
+  let rec print_pair_list_aux l =
+    match l with
+    | [] -> ()
+    | [t] -> (print_pair_int_char t);
+    | h::t -> (print_pair_int_char h); print_char ' '; print_pair_list_aux t in
+  print_pair_list_aux l;
+  print_endline "]"
+
+let test argname arg =
+  print_string "Test with ";
+  print_string "[";
+  print_string argname;
+  print_string "]: ";
+  print_pair_list (encode arg)
 
 let main () =
-  let l = ['a'; 'a'; 'a'; 'b'; 'b'] in
-  let result = (encode l) in
-  print_list result
+  test "['a'; 'a'; 'a'; 'b'; 'b']" ['a'; 'a'; 'a'; 'b'; 'b'];
+  test "['a'; 'c'; 'd'; 'c'; 'b']" ['a'; 'c'; 'd'; 'c'; 'b'];
+  test "[]" []
   
 let () = main ()
