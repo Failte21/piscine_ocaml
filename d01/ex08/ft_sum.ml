@@ -1,6 +1,7 @@
 (* Allowed functions : float_of_int *)
 (* If the upper bound is less than the lower bound, ft_sum must return nan. *)
 
+(* (int -> float) -> int -> int -> float *)
 let ft_sum f i upper_bound =
   if upper_bound < i then nan else
   let rec ft_sum_aux f i upper_bound acc =
