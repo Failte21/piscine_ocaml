@@ -20,6 +20,31 @@ type helix = nucleotide list
 
 type rna = nucleobase list
 
+type aminoacid =
+  | Stop
+  | Ala
+  | Arg
+  | Asn
+  | Asp
+  | Cys
+  | Gln
+  | Glu
+  | Gly
+  | His
+  | Ile
+  | Leu
+  | Lys
+  | Met
+  | Phe
+  | Pro
+  | Ser
+  | Thr
+  | Trp
+  | Tyr
+  | Val
+
+type protein = aminoacid list
+
 let char_to_nucleobase = function
   | 'A' -> A
   | 'T' -> T
@@ -101,38 +126,61 @@ let generate_rna (helix: helix): rna =
   let nucleobases = helix_to_nucleobases c_helix in
   nucleobases_h_to_rna nucleobases
 
+(* rna -> (nucleobase * nucleobase * nucleobase) list. *)
+let generate_bases_triplets (rna: rna) =
+  match rna with
+  | [] -> []
+  | l ->
+    let rec generate_bases_triplets_aux list acc =
+      match list with
+      | a::b::c::t -> generate_bases_triplets_aux t (acc @ [(a, b, c)])
+      | _ -> acc in
+    generate_bases_triplets_aux l []
+
+let rec match_decode = function 
+  | (U,A,A) | (U,A,G) | (U,G,A) -> (Stop, true)
+  | (G,C,A) | (G,C,C) | (G,C,G) | (G,C,U) -> (Ala, true)
+  | (A,G,A) | (A,G,G) | (C,G,A) | (C,G,C) | (C,G,G) | (C,G,U) -> (Arg, true)
+  | (A,A,C) | (A,A,U) -> (Asn, true)
+  | (G,A,C) | (G,A,U) -> (Asp, true)
+  | (U,G,C) | (U,G,U) -> (Cys, true)
+  | (C,A,A) | (C,A,G) -> (Gln, true)
+  | (G,A,A) | (G,A,G) -> (Glu, true)
+  | (G,G,A) | (G,G,C) | (G,G,G) | (G,G,U) -> (Gly, true)
+  | (C,A,C) | (C,A,U) -> (His, true)
+  | (A,U,A) | (A,U,C) | (A,U,U) -> (Ile, true)
+  | (C,U,A) | (C,U,C) | (C,U,G) | (C,U,U) | (U,U,A) | (U,U,G) -> (Leu, true)
+  | (A,A,A) | (A,A,G) -> (Lys, true)
+  | (A,U,G) -> (Met, true)
+  | (U,U,C) | (U,U,U) -> (Phe, true)
+  | (C,C,C) | (C,C,A) | (C,C,G) | (C,C,U) -> (Pro, true)
+  | (U,C,A) | (U,C,C) | (U,C,G) | (U,C,U) | (A,G,U) | (A,G,C) -> (Ser, true)
+  | (A,C,A) | (A,C,C) | (A,C,G) | (A,C,U) -> (Thr, true)
+  | (U,G,G) -> (Trp, true)
+  | (U,A,C) | (U,A,U) -> (Tyr, true)
+  | (G,U,A) | (G,U,C) | (G,U,G) | (G,U,U) -> (Val, true)
+  | _ -> (Stop, false)
+
+(* rna -> protein *)
+let decode_arn rna: protein =
+  match rna with
+  | [] -> []
+  | list ->
+      let bases_triplets = generate_bases_triplets list in
+      let rec decode_arn_aux list acc =
+        match list with
+        | h::t ->
+          let (decode, success) = match_decode h in
+          if success
+          then if decode = Stop then acc @ [decode] else decode_arn_aux t (acc @ [decode])
+          else acc
+        | [] -> acc
+      in
+      decode_arn_aux bases_triplets []
+      
 (* Tests *)
 
-let display_nucleotide nucleotide =
-  print_string "phosphate: ";
-  print_endline nucleotide.phosphate;
-  print_string "deoxyribose: ";
-  print_endline nucleotide.deoxyribose;
-  print_string "nucleobase: ";
-  print_endline (nucleobase_to_string nucleotide.nucleobase)
-
-let display_helix helix =
-  let rec display_helix_aux h i =
-    match h with
-    | [] -> print_char '\n'
-    | h::t ->
-      print_string "Helix ";
-      print_int i;
-      print_char '\n';
-      display_nucleotide h;
-      display_helix_aux t (i + 1) in
-  display_helix_aux helix 1
-
 let display_nucleobases = List.iter print_endline
-
-let generate_bases_triplets = function
-    | [] -> []
-    | l ->
-      let rec generate_bases_triplets_aux list acc =
-        match list with
-        | a::b::c::t -> generate_bases_triplets_aux t (acc @ [(a, b, c)])
-        | _ -> acc in
-      generate_bases_triplets_aux l []
 
 let print_triplet = function
   | (a, b, c) ->
@@ -141,6 +189,29 @@ let print_triplet = function
     print_char (nucleobase_to_char b);
     print_char (nucleobase_to_char c);
     print_char ')'
+
+let aminoacid_to_string = function
+  | Stop -> "End of translation"
+  | Ala -> "Alanine"
+  | Arg -> "Arginine"
+  | Asn -> "Asparagine"
+  | Asp -> "Aspartique"
+  | Cys -> "Cysteine"
+  | Gln -> "Glutamine"
+  | Glu -> "Glutamique"
+  | Gly -> "Glycine"
+  | His -> "Histidine"
+  | Ile -> "Isoleucine"
+  | Leu -> "Leucine"
+  | Lys -> "Lysine"
+  | Met -> "Methionine"
+  | Phe -> "Phenylalanine"
+  | Pro -> "Proline"
+  | Ser -> "Serine"
+  | Thr -> "Threonine"
+  | Trp -> "Tryptophane"
+  | Tyr -> "Tyrosine"
+  | Val -> "Valine"
 
 let test n =
   print_string "Test with ";
@@ -156,10 +227,14 @@ let test n =
   let base_triplets = generate_bases_triplets rna in
   print_char ']';
   List.iter (fun e -> print_triplet e) base_triplets;
-  print_char '\n'
+  print_char '\n';
+  let protein = decode_arn rna in
+  print_endline "Protein:";
+  List.iter (fun e -> print_endline (aminoacid_to_string e)) protein
 
 let main () =
   test 5;
-  test 18
+  test 18;
+  test 150
   
 let () = main ()
