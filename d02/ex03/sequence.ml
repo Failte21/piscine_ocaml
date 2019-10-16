@@ -5,26 +5,26 @@
 let rec arr_to_str arr =
   match arr with
   | [] -> ""
-  | h::t -> string_of_int h ^ arr_to_str t
+  | h::t -> string_of_int h ^ (arr_to_str t)
 
 let encode l =
-  let rec loop l e n =
+  let rec encode_aux l e n acc =
     match l with
-    | [] -> [n; e]
-    | h::t when h = e -> loop t e (n + 1)
-    | h::t -> [n; e] @ loop t h 1
+    | h::t when h = e -> encode_aux t e (n + 1) acc
+    | h::t -> encode_aux t h 1 (acc @ [n; e])
+    | [] -> acc @ [n; e]
   in
   match l with
   | [] -> []
-  | h::t -> loop (h::t) h 0
+  | h::t -> encode_aux (h::t) h 0 []
 
 let sequence n =
   if n <= 0 then "" else
   if n = 1 then "1" else
-  let rec loop l n =
-    if n = 0 then l
-    else loop (encode l) (n - 1) in
-  arr_to_str (loop [1] (n - 1))
+  let rec sequence_aux acc n =
+    if n = 0 then acc
+    else (sequence_aux (encode acc) (n - 1)) in
+  arr_to_str (sequence_aux [1] (n - 1))
 
 let test n =
   print_string "Test with ";
@@ -39,6 +39,6 @@ let (--) i j =
   aux j []
 
 let main () =
-  List.iter test (-3--15)
+  List.iter test (0--15)
   
 let () = main ()
