@@ -21,12 +21,12 @@ let test m n =
 
 let main () =
 test (-1) 7;
-(* -1 *)
 test 0 0;
-(* 1 *)
 test 2 3;
-(* 9 *)
-test 4 1
-(* 65533 *)
+test 4 1;
+test 4 (-1);
+test 3 4;
+test (-1) (-42);
+test 1 7
   
 let () = main ()
