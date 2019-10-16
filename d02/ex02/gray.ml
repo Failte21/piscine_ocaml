@@ -7,9 +7,9 @@ let rec count_1 = function
 let is_odd n = (n mod 2) = 0
 
 let rec rev_last = function
-  | [] -> []
   | h::[] -> if h = 1 then [0] else [1]
   | h::t -> h :: (rev_last t)
+  | [] -> []
 
 let rec last_1_index l i last =
   match l with
@@ -49,14 +49,14 @@ let rec print_list = function
   | [] -> ()
 
 let gray n =
-  let rec loop l =
+  let rec gray_aux l =
     print_list l;
     if (check_end l 0 = false) then
       let n_1 = count_1 l in
       let l = if is_odd n_1 then (rev_last l) else (rev_weird l) in
       print_char ' ';
-      loop l in
-  loop(create_list n);
+      gray_aux l in
+  gray_aux(create_list n);
   print_char '\n'
 
 let test n =
