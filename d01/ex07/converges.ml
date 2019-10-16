@@ -1,3 +1,4 @@
+(* e (’a -> ’a) -> ’a -> int -> bool *)
 let rec converges f x n =
   if n < 0 then false else
   let res = f x in
@@ -21,7 +22,7 @@ let main () =
   test (( * ) 2) 2 (-1);
   print_endline "\nWith (fun x -> x / 2)";
   test (fun x -> x / 2) 2 3;
-  print_endline "\n With (fun x -> x / 2)";
+  print_endline "\nWith (fun x -> x / 2)";
   test (fun x -> x / 2) 2 2;
   test (fun x -> x / 2) 2 0
 
