@@ -1,3 +1,5 @@
+(* Allowed functions : Pervasives except the @ operator and String module *)
+
 let rec count_1 = function
   | [] -> 0
   | h::t -> h + count_1 t
@@ -42,14 +44,17 @@ let create_list n =
     | i -> 0::(create_list_aux (i - 1)) in
   create_list_aux n
 
+let rec print_list = function
+  | h::t -> print_int h; print_list t
+  | [] -> ()
+
 let gray n =
   let rec loop l =
-    List.iter print_int l;
-    print_char ' ';
+    print_list l;
     if (check_end l 0 = false) then
       let n_1 = count_1 l in
-      let l = if is_odd n_1 then
-        (rev_last l) else (rev_weird l) in
+      let l = if is_odd n_1 then (rev_last l) else (rev_weird l) in
+      print_char ' ';
       loop l in
   loop(create_list n);
   print_char '\n'
@@ -63,6 +68,8 @@ let test n =
 
 let main () =
   test (-1);
+  test (0);
+  test (1);
   test 2;
   test 3;
   test 5
