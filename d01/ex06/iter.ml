@@ -1,5 +1,6 @@
 (* If n is negative, your function will return -1 *)
 
+(* (int -> int) -> int -> int -> int. *)
 let rec iter f x n =
   if n < 0 then (-1) else
   if n = 0 then x else
@@ -28,6 +29,12 @@ let main () =
   test (fun x -> x * 2) 5 3;
   test (fun x -> x * 2) 5 0;
   test (fun x -> x * 2) 5 (-1);
-  test (fun x -> x * 2) (-5) 2
+  test (fun x -> x * 2) (-5) 2;
+  print_endline "\nWith (fun x -> x / 2)";
+  test (fun x -> x / 2) 200 4;
+  test (fun x -> x / 2) 500 3;
+  test (fun x -> x / 2) 1000 0;
+  test (fun x -> x / 2) (-50) (-1);
+  test (fun x -> x / 2) (-500) 2
 
 let () = main ()
