@@ -1,3 +1,4 @@
+(* int -> int -> int -> int *)
 let rec tak x y z =
   if y >= x then
     z
@@ -22,6 +23,7 @@ let main () =
   test 9 1 0;
   test 1 1 1;
   test 0 42 0;
+  test (-30) 42 43;
   test 23498 98734 98776
 
 let () = main ()
