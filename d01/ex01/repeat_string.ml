@@ -1,6 +1,7 @@
 (* If the argument given to the function is negative, the function must behave like
 repeat_x as stated in the previous exercise. *)
 
+(* ?str:string -> int -> string. *)
 let rec repeat_string ?(str="x") n =
   if n < 0 then "Error" else
     if n == 0 then
