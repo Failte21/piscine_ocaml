@@ -35,6 +35,13 @@ let rec check_end l i =
     let expected = if (i = 0) then 1 else 0 in
     (h = expected) && (check_end t (i + 1))
 
+let create_list n =
+  if n <= 0 then [] else
+  let rec create_list_aux = function
+    | 0 -> []
+    | i -> 0::(create_list_aux (i - 1)) in
+  create_list_aux n
+
 let gray n =
   let rec loop l =
     List.iter print_int l;
@@ -44,9 +51,20 @@ let gray n =
       let l = if is_odd n_1 then
         (rev_last l) else (rev_weird l) in
       loop l in
-  loop([0;0;0]);
+  loop(create_list n);
   print_char '\n'
 
-let main () = gray 5
+let test n =
+  print_string "Test with ";
+  print_string "[";
+  print_int n;
+  print_string "]: ";
+  gray n
+
+let main () =
+  test (-1);
+  test 2;
+  test 3;
+  test 5
 
 let () = main ()
