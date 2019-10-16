@@ -2,15 +2,25 @@
 (* val encode : ’a list -> (int * ’a) list *)
 
 let encode l =
-  let rec loop l e n =
-    match l with
-    | h::t when h = e -> loop t e (n + 1)
-    | h::t -> (n, e) :: loop t h 1
-    | [] -> [(n, e)]
+  let rec encode_aux list element n acc =
+    match list with
+    | [] -> acc
+    | h::[] when h = element -> (acc @ [(n + 1, element)]) 
+    | h::[] -> acc @ [(1, element)] 
+    | h::t when h = element -> encode_aux t element (n + 1) acc
+    | h::t -> encode_aux t h 1 (acc @ [(n, element)])
   in
+  (* let rec encode_aux list element n acc =
+    match list with
+    | [] -> acc
+    | h::[] when h = element -> (n + 1, element) :: acc 
+    | h::[] -> (1, element) :: acc
+    | h::t when h = element -> encode_aux t element (n + 1) acc
+    | h::t -> encode_aux t h 1 ((n, element) :: acc)
+  in *)
   match l with
-  | h::t -> loop (h::t) h 0
   | [] -> []
+  | h::t -> encode_aux (h::t) h 0 []
 
 let print_pair pfa pfb (a, b) =
   print_char '(';
@@ -19,24 +29,12 @@ let print_pair pfa pfb (a, b) =
   pfb b;
   print_char ')'
 
-let print_pair_int_x = print_pair print_int
-let print_pair_int_char = print_pair_int_x print_char
 let print_pair_int_string = print_pair print_int print_string
+let print_pair_int_char = print_pair print_int print_char
 
-let print_list pf l =
-  print_char '[';
-  let rec print_pair_list_aux l =
-    match l with
-    | [] -> ()
-    | [t] -> (pf t);
-    | h::t -> (pf h); print_char ' '; print_pair_list_aux t in
-  print_pair_list_aux l;
-  print_char ']'
-
-let print_char_list = print_list print_char
-let print_string_list = print_list print_string
-let print_pair_int_char_list = print_list print_pair_int_char
-let print_pair_int_string_list = print_list print_pair_int_string
+let print_string_list = List.iter (fun e -> print_char ' '; print_string e;)
+let print_pair_int_char_list = List.iter print_pair_int_char
+let print_pair_int_string_list = List.iter print_pair_int_string
 
 let test pargf pf arg =
   print_string "Test with ";
@@ -46,7 +44,7 @@ let test pargf pf arg =
   pf (encode arg);
   print_char '\n'
 
-let test_char = test print_char_list print_pair_int_char_list
+let test_char = test (List.iter print_char) print_pair_int_char_list
 let test_string = test print_string_list print_pair_int_string_list
 
 let main () =
