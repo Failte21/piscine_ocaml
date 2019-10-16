@@ -1,3 +1,4 @@
+(* int -> int *)
 let fibonacci n =
   if n < 0 then (-1) else
     let rec fi_aux x a b =
