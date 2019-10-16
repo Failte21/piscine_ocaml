@@ -4,20 +4,10 @@
 let encode l =
   let rec encode_aux list element n acc =
     match list with
-    | [] -> acc
-    | h::[] when h = element -> (acc @ [(n + 1, element)]) 
-    | h::[] -> acc @ [(1, element)] 
+    | [] -> acc @ [(n, element)]
     | h::t when h = element -> encode_aux t element (n + 1) acc
     | h::t -> encode_aux t h 1 (acc @ [(n, element)])
   in
-  (* let rec encode_aux list element n acc =
-    match list with
-    | [] -> acc
-    | h::[] when h = element -> (n + 1, element) :: acc 
-    | h::[] -> (1, element) :: acc
-    | h::t when h = element -> encode_aux t element (n + 1) acc
-    | h::t -> encode_aux t h 1 ((n, element) :: acc)
-  in *)
   match l with
   | [] -> []
   | h::t -> encode_aux (h::t) h 0 []
