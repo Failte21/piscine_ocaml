@@ -5,17 +5,18 @@ function will return -1 *)
 
 (* Its type will be float -> int *)
 
+(* float -> int *)
 let leibniz_pi delta =
   if delta < 0.0 then -1 else
   let f = (fun n -> ((-1.0) ** (float_of_int n)) /. ((2.0 *. (float_of_int n)) +. 1.0)) in
   let pi_ref = float_of_int 4 *. atan 1.0 in
-  let rec loop i acc =
+  let rec leibniz_pi_aux i acc =
     let result = (f i) +. acc in
     let diff = pi_ref -. (4.0 *. result) in
     let diff_abs = if diff > 0.0 then diff else -.diff in
     if diff_abs < delta then i
-    else loop (i + 1) (result) in
-  loop 0 0.0
+    else leibniz_pi_aux (i + 1) (result) in
+  leibniz_pi_aux 0 0.0
 
 let test delta =
   print_string "Test with ";
