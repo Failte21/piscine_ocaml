@@ -17,13 +17,19 @@ type nucleotide = {
   nucleobase: nucleobase
 }
 
-let get_nucleobase nucleobase =
-  match nucleobase with
+let get_nucleobase = function
   | 'A' -> A
   | 'T' -> T
   | 'C' -> C
   | 'G' -> G
   | _ -> None
+
+let nucleobase_to_string = function
+| A -> "A"
+| T -> "T"
+| C -> "C"
+| G -> "G"
+| _ -> "None"
 
 let generate_nucleotide nucleobase = {
     phosphate = "phosphate";
@@ -32,20 +38,19 @@ let generate_nucleotide nucleobase = {
   }
 
 let display_nucleotide nucleotide =
-  print_string "phosphate: ";
-  print_endline nucleotide.phosphate;
-  print_string "deoxyribose: ";
-  print_endline nucleotide.deoxyribose
+  Printf.printf
+    "phosphate: %s, deoxyribose: %s, nucleobase: %s"
+    nucleotide.phosphate
+    nucleotide.deoxyribose
+    (nucleobase_to_string nucleotide.nucleobase)
 
 let test nucleobase =
-  print_string "Test with ";
-  print_string "[";
-  print_char nucleobase;
-  print_string "]:\n";
+  Printf.printf "Test with [%c]:\n" nucleobase;
   let nucleotide = generate_nucleotide nucleobase in
-  display_nucleotide nucleotide
+  display_nucleotide nucleotide;
+  print_char '\n'
 
 let main () =
-  test 'A'
+  List.iter test ['A'; 'U'; 'T'; 'v'; 'G']
 
 let () = main ()
