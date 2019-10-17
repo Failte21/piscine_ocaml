@@ -4,12 +4,9 @@ type 'a tree = Nil | Node of 'a * 'a tree * 'a tree
 
 (* The size of a binary tree is the number of nodes that are defined *)
 (* val size : ’a tree -> int *)
-let size tree =
-    let rec size_aux tree =
-      match tree with
-      | Node(v, a, b) -> 1 + (size_aux a) + (size_aux b)
-      | Nil -> 0 in
-    size_aux tree
+let rec size = function
+  | Node(v, a, b) -> 1 + (size a) + (size b)
+  | Nil -> 0
 
 (* The height of
 a binary tree is the number of relations on the longest downward path between the root
