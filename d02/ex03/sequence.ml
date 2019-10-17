@@ -39,6 +39,6 @@ let (--) i j =
   aux j []
 
 let main () =
-  List.iter test (0--15)
+  List.iter test (-3--15)
   
 let () = main ()
