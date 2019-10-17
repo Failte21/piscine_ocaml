@@ -214,23 +214,19 @@ let aminoacid_to_string = function
   | Val -> "Valine"
 
 let test n =
-  print_string "Test with ";
-  print_string "[";
-  print_int n;
-  print_endline "]: ";
+  Printf.printf "Test with [%d]:\n" n;
   let helix = generate_helix n in
-  print_string "rna: ";
   let rna = generate_rna helix in
+  print_string "rna: ";
   List.iter (fun e -> print_char (nucleobase_to_char e)) rna;
   print_string "\nbase triplets: ";
-  print_char '[';
   let base_triplets = generate_bases_triplets rna in
-  print_char ']';
   List.iter (fun e -> print_triplet e) base_triplets;
   print_char '\n';
   let protein = decode_arn rna in
   print_endline "Protein:";
-  List.iter (fun e -> print_endline (aminoacid_to_string e)) protein
+  List.iter (fun e -> print_endline (aminoacid_to_string e)) protein;
+  print_char '\n'
 
 let main () =
   test 5;
