@@ -104,33 +104,29 @@ let generate_rna (helix: helix): rna =
 (* Tests *)
 
 let display_nucleotide nucleotide =
-  print_string "phosphate: ";
-  print_endline nucleotide.phosphate;
-  print_string "deoxyribose: ";
-  print_endline nucleotide.deoxyribose;
-  print_string "nucleobase: ";
-  print_endline (nucleobase_to_string nucleotide.nucleobase)
+  Printf.printf
+    "phosphate: %s, deoxyribose: %s, nucleobase: %s"
+    nucleotide.phosphate
+    nucleotide.deoxyribose
+    (nucleobase_to_string nucleotide.nucleobase)
 
 let display_helix helix =
   let rec display_helix_aux h i =
     match h with
     | [] -> print_char '\n'
     | h::t ->
-      print_string "Helix ";
-      print_int i;
-      print_char '\n';
+      Printf.printf "Helix %d:" i;
       display_nucleotide h;
+      print_char '\n';
       display_helix_aux t (i + 1) in
   display_helix_aux helix 1
-
 let display_nucleobases = List.iter print_endline
 
+
 let test n =
-  print_string "Test with ";
-  print_string "[";
-  print_int n;
-  print_endline "]: ";
+  Printf.printf "Test with [%d]:\n" n;
   let helix = generate_helix n in
+  Printf.printf "helix nucleobases: %s" (helix_to_string helix);
   let c_helix = complementary_helix helix in
   print_string "helix nucleobases: ";
   List.iter (fun e -> print_char (nucleobase_to_char e)) (helix_to_nucleobases helix);
