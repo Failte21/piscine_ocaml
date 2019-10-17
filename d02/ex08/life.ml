@@ -251,58 +251,37 @@ let display_bases_triplets bases_triplets =
   print_char '\n'
 
 let display_protein protein =
-  print_string "[ ";
+  print_string "[";
   let rec display_protein_aux = function
     | h::[] -> print_string (aminoacid_to_string h); display_protein_aux []
     | h::t -> print_string (aminoacid_to_string h); print_string ", "; display_protein_aux t
-    | [] -> print_string " ]" in
+    | [] -> print_string "]" in
   display_protein_aux protein
 
 let life = function
   | "" -> ()
   | s ->
-    print_string "About to create some life from the following sequence: ";
-    print_endline s;
+    Printf.printf "About to create some life from the following sequence: %s\n" s;
     print_char '\n';
     let helix = helix_from_str s in
+    let rna = generate_rna helix in
+    let bases_triplets = generate_bases_triplets rna in
+    let protein = decode_arn rna in
     print_endline "Helix created:\n";
     display_helix helix;
-    let rna = generate_rna helix in
     print_string "RNA created: ";
     display_rna rna;
     print_char '\n';
-    let bases_triplets = generate_bases_triplets rna in
     print_string "Bases triplets: ";
     display_bases_triplets bases_triplets;
     print_char '\n';
-    let protein = decode_arn rna in
     print_string "Protein Created: ";
     display_protein protein;
-    print_char '\n'
-
-(* let test n =
-  print_string "Test with ";
-  print_string "[";
-  print_int n;
-  print_endline "]: ";
-  let helix = generate_helix n in
-  print_string "rna: ";
-  let rna = generate_rna helix in
-  List.iter (fun e -> print_char (nucleobase_to_char e)) rna;
-  print_string "\nbase triplets: ";
-  print_char '[';
-  let base_triplets = generate_bases_triplets rna in
-  print_char ']';
-  List.iter (fun e -> print_triplet e) base_triplets;
-  print_char '\n';
-  let protein = decode_arn rna in
-  print_endline "Protein:";
-  List.iter (fun e -> print_endline (aminoacid_to_string e)) protein *)
+    print_string "\n\n"
 
 let main () =
-  life "ATCG"
-  (* test 5;
-  test 18;
-  test 150 *)
+  life "ATCG";
+  life "ATTCAATGGATATGAAT";
+  life "Hello World"
   
 let () = main ()
