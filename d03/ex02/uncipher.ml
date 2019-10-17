@@ -4,7 +4,7 @@ let rot n c =
   let c_int = int_of_char c in
   char_of_int ((c_int + n) mod 128)
 
-let unceasar s i = String.map (rot ((128 - i))) s
+let unceasar s i = String.map (rot ((128 - (i mod 128)))) s
 
 let unrot42 s = unceasar s 1
 

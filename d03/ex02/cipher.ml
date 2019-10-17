@@ -8,7 +8,9 @@ let ceasar s i = String.map (rot i) s
 
 let rot42 s = ceasar s 1
 
-let xorc key c = char_of_int (((int_of_char c) lxor key) mod 128)
+let xorc key c =
+  let i = (((int_of_char c) lxor key) mod 128) in
+  char_of_int i
 
 let xor key s = String.map (xorc key) s
 
