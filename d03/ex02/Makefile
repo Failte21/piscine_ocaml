@@ -1,14 +1,14 @@
-NAME = ft_cipher
+NAME = cipher_uncipher
 
 SOURCES = ./cipher.ml \
 		  ./uncipher.ml \
-		  ./test.ml
+		  ./main.ml
 
 CAMLC = ocamlc
 CAMLOPT = ocamlopt
 CAMLDEP = ocamldep
 
-# all: depend $(NAME)
+all: $(NAME)
 
 $(NAME) : opt byt
 	ln -s $(NAME).byt $(NAME)
@@ -46,9 +46,4 @@ fclean: clean
 	rm -f $(NAME).byt
 	rm -f $(NAME).opt
 
-# depend: .depend
-# 	$(CAMLDEP) $(SOURCES) > .depend
-
 re: fclean all
-
-# include .depend
