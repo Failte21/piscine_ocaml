@@ -41,7 +41,7 @@ end
 
 type t
 
-val newDeck : t
+val newDeck : unit -> t
 
 val toStringList : t -> string list
 

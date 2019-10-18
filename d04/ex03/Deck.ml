@@ -172,7 +172,7 @@ let pick_at l i =
       | _ -> (acc, Card.newCard As Heart) in
     pick_at_aux l i []
 
-let newDeck =
+let newDeck () =
   let rec newDeck_aux cards acc =
     match cards with
     | [] -> acc
