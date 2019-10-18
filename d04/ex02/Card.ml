@@ -87,6 +87,11 @@ type t = {
   color: Color.t
 }
 
+let newCard value color = {
+  value = value;
+  color = color
+}
+
 let toString card =
   (Value.toString card.value) ^ (Color.toString card.color)
 
@@ -94,11 +99,10 @@ let toStringVerbose card =
   "Card(" ^
   (Value.toStringVerbose card.value) ^
   ", " ^
-  (Color.toStringVerbose card.color)
+  (Color.toStringVerbose card.color) ^
+  ")"
 
 let compare card_a card_b =
-  if card_a.color < card_b.color then -1 else 
-  if card_a.color > card_b.color then 1 else 
   if card_a.value < card_b.value then -1 else 
   if card_a.value > card_b.value then 1 else 
   0
@@ -115,4 +119,6 @@ let min card_a card_b =
   if cmp_res = 1 then card_b else
   card_a
 
-let best cards = List.fold_left max cards 
+let best = function
+  | [] -> invalid_arg "List is empty"
+  | cards -> List.fold_left max (List.hd cards) cards
