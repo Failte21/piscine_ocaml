@@ -14,12 +14,17 @@ let is_bst = function
       | Nil -> true in
     (is_bst_aux r v (>)) && (is_bst_aux l v (<))
 
-let rec is_perfect = function
-  | Node (_, Nil, Nil) -> true
-  | Node (_, Nil, _) -> false
-  | Node (_, _, Nil) -> false
-  | Node (_, left, right) -> (is_perfect left) && (is_perfect right)
+let is_perfect = function
   | Nil -> true
+  | tree ->
+    let rec is_perfect_aux node =
+    match node with
+      | Node (_, Nil, Nil) -> true
+      | Node (_, Nil, _) -> false
+      | Node (_, _, Nil) -> false
+      | Node (_, left, right) -> (is_perfect_aux left) && (is_perfect_aux right)
+      | Nil -> true in
+  (is_perfect_aux tree) && (is_bst tree)
 
 let bst_trees = [
   let f = Node (65, Nil, Nil) in
