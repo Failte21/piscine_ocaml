@@ -38,6 +38,12 @@ let is_balanced = function
     | Nil -> true in
   (is_balanced_aux tree true) && (is_bst tree)
 
+let rec search_bst tree searched_value =
+  match tree with
+    | Nil -> false
+    | Node (value, left, right) when value = searched_value -> true
+    | Node (_, left, right) -> (search_bst left searched_value) || (search_bst right searched_value)
+
 let bst_trees = [
   let f = Node (65, Nil, Nil) in
   let e = Node (70, f, Nil) in
@@ -64,11 +70,14 @@ let perfect_trees = [
   a
 ]
 
+let all_trees = bst_trees @ balanced_trees @ perfect_trees
+
 let main () =
   List.iter (fun tree -> if (is_bst tree) then print_endline "Tree is bst" else print_endline "Tree is not bst") bst_trees;
   List.iter (fun tree -> if (is_perfect tree) then print_endline "Tree is perfect" else print_endline "Tree is not perfect") bst_trees;
   List.iter (fun tree -> if (is_perfect tree) then print_endline "Tree is perfect" else print_endline "Tree is not perfect") perfect_trees;
   List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") bst_trees;
+  List.iter (fun tree -> if (search_bst tree 70) then print_endline "70 is in tree" else print_endline "70 is not in tree") all_trees;
   List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") balanced_trees
 
 let () = main ()
