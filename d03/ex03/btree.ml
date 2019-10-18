@@ -44,6 +44,14 @@ let rec search_bst tree searched_value =
     | Node (value, left, right) when value = searched_value -> true
     | Node (_, left, right) -> (search_bst left searched_value) || (search_bst right searched_value)
 
+
+let rec add_bst to_insert tree =
+  match tree with
+    | Node (value, left, right) when to_insert < value -> Node(value, (add_bst to_insert left), right)
+    | Node (value, left, right) when to_insert > value -> Node(value, left, (add_bst to_insert right))
+    | Node (value, _, _) -> failwith "BST Tree cannot have duplicated values"
+    | Nil -> Node (to_insert, Nil, Nil)
+
 let bst_trees = [
   let f = Node (65, Nil, Nil) in
   let e = Node (70, f, Nil) in
@@ -78,6 +86,12 @@ let main () =
   List.iter (fun tree -> if (is_perfect tree) then print_endline "Tree is perfect" else print_endline "Tree is not perfect") perfect_trees;
   List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") bst_trees;
   List.iter (fun tree -> if (search_bst tree 70) then print_endline "70 is in tree" else print_endline "70 is not in tree") all_trees;
-  List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") balanced_trees
+  List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") balanced_trees;
+
+  let balanced_tree_a = (add_bst 45 (List.hd bst_trees)) in
+  let balanced_tree_b = (add_bst 55 balanced_tree_a) in
+  let balanced_tree_c = (add_bst 55 balanced_tree_b) in
+  if (is_balanced balanced_tree_a) then print_endline "Tree is balanced" else print_endline "Tree is not balanced";
+  if (is_balanced balanced_tree_b) then print_endline "Tree is balanced" else print_endline "Tree is not balanced"
 
 let () = main ()
