@@ -3,6 +3,11 @@ a.out
 *.o
 *.cmx
 *.cmi
+*.cmo
+*.byt
+*.opt
+*.native
+_build
 
 # ide stuff
 .vscode
