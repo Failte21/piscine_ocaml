@@ -5,6 +5,7 @@ let main () =
   let all_colors = Color.all in
   Printf.printf "%s-----Color.toString-----%s\n" green reset;
   List.iter print_endline (List.map Color.toString all_colors);
+  print_char '\n';
   Printf.printf "%s-----Color.toStringVerbose-----%s\n" green reset;
   List.iter print_endline (List.map Color.toStringVerbose all_colors)
 
