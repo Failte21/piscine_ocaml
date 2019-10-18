@@ -44,13 +44,38 @@ let rec search_bst tree searched_value =
     | Node (value, left, right) when value = searched_value -> true
     | Node (_, left, right) -> (search_bst left searched_value) || (search_bst right searched_value)
 
-
 let rec add_bst to_insert tree =
   match tree with
     | Node (value, left, right) when to_insert < value -> Node(value, (add_bst to_insert left), right)
     | Node (value, left, right) when to_insert > value -> Node(value, left, (add_bst to_insert right))
     | Node (value, _, _) -> failwith "BST Tree cannot have duplicated values"
     | Nil -> Node (to_insert, Nil, Nil)
+
+let rec min_bst = function
+  | Node (value, Nil, Nil) -> value
+  | Node (value, left, Nil) -> min_bst left
+  | Node (value, _, right) -> min_bst right
+  | Nil -> 0
+
+let delete_min tree =
+  let rec delete_min_aux node acc =
+    match node with
+      | Nil -> acc
+      | Node (value, Nil, Nil) -> acc
+      | Node (value, left, Nil) -> delete_min_aux left (Node (value, left, Nil))
+      | Node (value, left, right) -> delete_min_aux right (Node (value, left, right)) in
+    delete_min_aux tree Nil
+
+let rec delete_bst to_delete tree =
+  match tree with
+    | Node (value, Nil, Nil) when to_delete = value -> Nil
+    | Node (value, Nil, Nil) when to_delete = value -> Nil
+    | Node (value, left, right) when to_delete < value -> Node (value, right, (delete_bst to_delete left))
+    | Node (value, left, right) when to_delete > value -> Node (value, (delete_bst to_delete right), left)
+    | Node (value, left, Nil) when to_delete = value -> left
+    | Node (value, left, right) when to_delete = value -> Node ((min_bst right), left, delete_min right)
+    | Node (value, _, _) -> failwith "BST Tree cannot have duplicated values"
+    | Nil -> Node (to_delete, Nil, Nil)
 
 let bst_trees = [
   let f = Node (65, Nil, Nil) in
@@ -80,18 +105,43 @@ let perfect_trees = [
 
 let all_trees = bst_trees @ balanced_trees @ perfect_trees
 
-let main () =
-  List.iter (fun tree -> if (is_bst tree) then print_endline "Tree is bst" else print_endline "Tree is not bst") bst_trees;
-  List.iter (fun tree -> if (is_perfect tree) then print_endline "Tree is perfect" else print_endline "Tree is not perfect") bst_trees;
-  List.iter (fun tree -> if (is_perfect tree) then print_endline "Tree is perfect" else print_endline "Tree is not perfect") perfect_trees;
-  List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") bst_trees;
-  List.iter (fun tree -> if (search_bst tree 70) then print_endline "70 is in tree" else print_endline "70 is not in tree") all_trees;
-  List.iter (fun tree -> if (is_balanced tree) then print_endline "Tree is balanced" else print_endline "Tree is not balanced") balanced_trees;
+let tree_names_values = [
+  ("a", 42);
+  ("b", 40);
+  ("c", 50);
+  ("d", 30);
+  ("e", 41);
+  ("f", 43);
+  ("g", 60);
+  ("h", 70);
+  ("i", 80);
+]
 
-  let balanced_tree_a = (add_bst 45 (List.hd bst_trees)) in
-  let balanced_tree_b = (add_bst 55 balanced_tree_a) in
-  let balanced_tree_c = (add_bst 55 balanced_tree_b) in
-  if (is_balanced balanced_tree_a) then print_endline "Tree is balanced" else print_endline "Tree is not balanced";
-  if (is_balanced balanced_tree_b) then print_endline "Tree is balanced" else print_endline "Tree is not balanced"
+let green = "\x1b[32m"
+let reset = "\x1b[0m"
+
+let rec test_delete current_tree current_name deleted_value remaining_value =
+  Printf.printf "%s-----DELETE %d FROM TREE %s-----%s\n" green deleted_value current_name reset ;
+  let new_tree = delete_bst deleted_value current_tree in
+  if (is_perfect new_tree) then print_endline "Tree is perfect\n" else print_endline "Tree is not perfect\n";
+  if (is_balanced new_tree) then print_endline "Tree is balanced\n" else print_endline "Tree is not balanced\n";
+  if (search_bst new_tree deleted_value) then Printf.printf "%d is in tree\n" deleted_value else Printf.printf "%d is not in tree\n" deleted_value;
+  if (search_bst new_tree remaining_value) then Printf.printf "%d is in tree\n" remaining_value else Printf.printf "%d is not in tree\n" remaining_value;
+  print_char '\n'
+
+let rec test_create tree_names_values current_tree current_name =
+  Printf.printf "%s-----TEST WITH TREE %s-----%s\n" green current_name reset;
+  if (is_perfect current_tree) then print_endline "Tree is perfect\n" else print_endline "Tree is not perfect\n";
+  if (is_balanced current_tree) then print_endline "Tree is balanced\n" else print_endline "Tree is not balanced\n";
+  if (search_bst current_tree 60) then print_endline "60 is in tree\n" else print_endline "60 is not in tree\n";
+  match tree_names_values with
+    | (name, value)::t ->
+      let new_name = if current_name = "Nil" then name else current_name ^ name in
+      let new_tree = add_bst value current_tree in
+      test_create t new_tree new_name
+    | _ -> test_delete current_tree current_name 60 80
+
+let main () =
+  test_create tree_names_values Nil "Nil"
 
 let () = main ()
