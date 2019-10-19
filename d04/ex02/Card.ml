@@ -1,4 +1,5 @@
-module Color = struct 
+module Color =
+struct
   type t = Spade | Heart | Diamond | Club
 
   let all = [Spade; Heart; Diamond; Club]
@@ -16,10 +17,26 @@ module Color = struct
   | Club -> "Club"
 end
 
-module Value = struct
+module Value =
+struct
   type t = T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | Jack | Queen | King | As
 
   let all = [T2; T3; T4; T5; T6; T7; T8; T9; T10; Jack; Queen; King; As]
+
+  let toInt = function
+    | T2 -> 2
+    | T3 -> 3 
+    | T4 -> 4 
+    | T5 -> 5 
+    | T6 -> 6 
+    | T7 -> 7 
+    | T8 -> 8 
+    | T9 -> 9 
+    | T10 -> 10 
+    | Jack -> 11 
+    | Queen -> 12
+    | King -> 13 
+    | As -> 14
 
   let toString = function
     | T2 -> "2"
@@ -122,3 +139,21 @@ let min card_a card_b =
 let best = function
   | [] -> invalid_arg "List is empty"
   | cards -> List.fold_left max (List.hd cards) cards
+
+let isOf card color = card.color = color 
+let isSpade card = isOf card Spade
+let isHeart card = isOf card Heart
+let isDiamond card = isOf card Diamond
+let isClub card = isOf card Club
+
+let getValue card = card.value 
+let getColor card = card.color
+
+let all =
+  List.fold_left (fun acc e -> acc @ e) []
+  (List.map (fun c -> List.map (fun v -> (newCard v c)) Value.all) Color.all)
+
+let allSpades = List.filter isSpade all
+let allHearts = List.filter isHeart all 
+let allDiamonds = List.filter isDiamond all
+let allClubs = List.filter isClub all

@@ -25,6 +25,7 @@ let main () =
   print_endline (Card.toStringVerbose best);
   Printf.printf "%s-----BEST OF AN EMPTY DECK-----%s\n" green reset;
   let best = Card.best [] in
+  print_char '\n';
   print_endline (Card.toStringVerbose best)
 
 let () = main ()
