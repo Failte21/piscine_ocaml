@@ -6,8 +6,10 @@ let carbon_dioxyde = new Molecule.carbon_dioxyde
 let trinitrotoluene = new Molecule.trinitrotoluene
 let methane = new Molecule.methane
 let benzene = new Molecule.benzene
+let carbon_tetrachloride = new Molecule.carbon_tetrachloride
+let bromoethane_13C2 = new Molecule.bromoethane_13C2
 
-let molecules = [water; carbon_dioxyde; trinitrotoluene; methane; benzene]
+let molecules = [water; carbon_dioxyde; trinitrotoluene; methane; benzene; carbon_tetrachloride; bromoethane_13C2]
 
 let display_molecule molecule =
   print_string molecule#name;

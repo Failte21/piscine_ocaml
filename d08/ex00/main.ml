@@ -10,7 +10,7 @@ let potassium = new Atom.potassium
 
 let atoms = [hydrogene; oxygen; carbon; titanium; barium; potassium]
 
-let describe = List.iter (fun atom -> atom#to_string) atoms
+let describe = List.iter (fun atom -> print_endline atom#to_string) atoms
 
 let compare a1 a2 =
   Printf.printf "%s = %s: %B\n" a1#name a2#name (a1#equals a2);

@@ -20,25 +20,31 @@ let encode l =
 let cmp_s s1 s2 =
   let l1 = explode s1 in
   let l2 = explode s2 in
-  if (List.nth l1 0) = (List.nth l2 0) then
-    if ((List.length l1 > 1) && ((List.length l1) = (List.length l2))) then
-      (int_of_char (List.nth l1 1)) - (int_of_char (List.nth l2 1))
-    else (List.length l1) - (List.length l2)
+  if (List.length l1 = 1) && (List.nth l1 0) = 'C' then -1
+  else if (List.length l2 = 1) && (List.nth l2 0) = 'C' then 1
   else
-    (int_of_char (List.nth l1 0)) - (int_of_char (List.nth l2 0))
+    if (List.length l1 = 1) && (List.nth l1 0) = 'H' then -1
+    else if (List.length l2 = 1) && (List.nth l2 0) = 'H' then 1
+    else
+      if (List.nth l1 0) = (List.nth l2 0) then
+        if ((List.length l1 > 1) && ((List.length l1) = (List.length l2))) then
+          (int_of_char (List.nth l1 1)) - (int_of_char (List.nth l2 1))
+        else (List.length l1) - (List.length l2)
+      else
+        (int_of_char (List.nth l1 0)) - (int_of_char (List.nth l2 0))
 
-class virtual molecule =
+class virtual molecule (atoms: Atom.atom list) (name: string) =
 object (self)
-  val virtual atoms: Atom.atom list
-  method atoms: Atom.atom list = atoms
+  method atoms = atoms
+  method name = name;
+  method equals (other_molecule: molecule) = self#formula = other_molecule#formula
+  method to_string = "Molecule " ^  self#name ^ ": (formula: " ^ self#formula ^ ")."
   method private sort_symbols = List.sort cmp_s
-  method virtual name: string
-  method formula =
-    let atom_symbols = List.map (fun atom -> atom#symbol) self#atoms in
+  method private formula_from_atoms atoms =
+    let atom_symbols = List.map (fun atom -> atom#symbol) atoms in
     let sorted_symbols = self#sort_symbols atom_symbols in
     encode sorted_symbols
-
-
+  method formula = self#formula_from_atoms self#atoms
 end
 
 let hydrogene = new Atom.hydrogene
@@ -48,58 +54,65 @@ let titanium = new Atom.titanium
 let barium = new Atom.barium
 let potassium = new Atom.potassium
 let nitrogen = new Atom.nitrogen
-
-(* • Water (H2O))
-• Carbon dioxyde (CO2) *)
-
-(* Trinitrotoluene *)
-(* 3 atoms of Nitrogen
-• 5 atoms of Hydrogen
-• 6 atoms of Oxygen
-• 7 atoms of Carbon *)
+let chlorine = new Atom.chlorine
+let bremine = new Atom.bremine
 
 class water =
 object
-  inherit molecule
-  val atoms = [hydrogene; hydrogene; oxygen]
-  method name = "Water"
+  inherit molecule [hydrogene; hydrogene; oxygen] "Water"
 end
 
 class carbon_dioxyde =
 object
-  inherit molecule
-  val atoms = [carbon; oxygen; oxygen]
-  method name = "Carbon dioxyde"
+  inherit molecule [carbon; oxygen; oxygen] "Carbon dioxyde"
 end
 
 class trinitrotoluene =
 object
   inherit molecule
-  val atoms = [
+  [
     nitrogen; nitrogen; nitrogen;
     hydrogene; hydrogene; hydrogene; hydrogene; hydrogene;
     oxygen; oxygen; oxygen; oxygen; oxygen; oxygen;
     carbon; carbon; carbon; carbon; carbon; carbon; carbon
   ]
-  method name = "Trinitrotoluene"
+  "Trinitrotoluene"
 end
 
 class methane =
 object
   inherit molecule
-  val atoms = [
+  [
     carbon;
     hydrogene; hydrogene; hydrogene; hydrogene
   ]
-  method name = "Methane"
+  "Methane"
 end
 
 class benzene =
 object
   inherit molecule
-  val atoms = [
+  [
     hydrogene; hydrogene; hydrogene; hydrogene; hydrogene; hydrogene;
     carbon; carbon; carbon; carbon; carbon; carbon
   ]
-  method name = "Benzene"
+  "Benzene"
+end
+
+class carbon_tetrachloride =
+object
+  inherit molecule [chlorine; carbon; chlorine; chlorine; chlorine] "Carbon tetrachloride"
+end
+
+(* C2H5Br *)
+(* Bromoethane-13C2 *)
+
+class bromoethane_13C2 =
+object
+  inherit molecule
+  [
+    bremine;
+    hydrogene; hydrogene; hydrogene; hydrogene; hydrogene;
+    carbon; carbon
+  ] "Bromoethane-13C2"
 end

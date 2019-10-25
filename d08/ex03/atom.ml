@@ -1,68 +1,57 @@
 (* Forbidden functions : None *)
 
-class virtual atom =
+class virtual atom name symbol atomic_number =
 object (self)
-  method virtual name: string
-  method virtual symbol: string
-  method virtual atomic_number: int
+  method name = name
+  method symbol = symbol
+  method atomic_number = atomic_number
   method to_string =
-    Printf.printf "Atom %s (symbol: %s, atomic number %d)\n" self#name self#symbol self#atomic_number
+    "Atom " ^ self#name ^ "(symbol: " ^ self#symbol ^ ", " ^ string_of_int self#atomic_number
   method equals (atom: atom) =
     self#atomic_number = atom#atomic_number
 end
 
 class hydrogene =
 object
-  inherit atom
-  method name = "Hydrogene"
-  method symbol = "H"
-  method atomic_number = 1
+  inherit atom "Hydrogene" "H" 1
 end
 
 class oxygen =
 object
-  inherit atom
-  method name = "Oxygen"
-  method symbol = "O"
-  method atomic_number = 8
+  inherit atom "Oxygen" "O" 8
 end
 
 class carbon =
 object
-  inherit atom
-  method name = "Carbon"
-  method symbol = "C"
-  method atomic_number = 6
+  inherit atom "Carbon" "C" 6
 end
 
 class titanium =
 object
-  inherit atom
-  method name = "Titanium"
-  method symbol = "Ti"
-  method atomic_number = 22
+  inherit atom "Titanium" "Ti" 22
 end
 
 class barium =
 object
-  inherit atom
-  method name = "Barium"
-  method symbol = "Ba"
-  method atomic_number = 56
+  inherit atom "Barium" "Ba" 56
 end
 
 class potassium =
 object
-  inherit atom
-  method name = "Potassium"
-  method symbol = "K"
-  method atomic_number = 19
+  inherit atom "Potassium" "K" 19
 end
 
 class nitrogen =
 object
-  inherit atom
-  method name = "Nitrogen"
-  method symbol = "N"
-  method atomic_number = 7
+  inherit atom "Nitrogen" "N" 7
+end
+
+class chlorine =
+object
+  inherit atom "Chlorine" "Cl" 17
+end
+
+class bremine =
+object
+  inherit atom "Bremine" "Br" 35
 end

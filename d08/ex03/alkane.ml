@@ -6,15 +6,19 @@ let (--) i j =
 let carbon = new Atom.carbon
 let hydrogene = new Atom.hydrogene
 
-class virtual alkane =
-  object (self)
-    inherit Molecule.molecule
-    method equals (other_alkane: alkane) = self#formula = other_alkane#formula
-    method virtual n: int
-    method to_string = "Alkane " ^  self#name ^ ": (formula: " ^ self#formula ^ ")."
-    method private atoms =
-      let n_hydrogenes = 2 + (self#n * 2) in 
-      let n_carbons = self#n in
+let atoms_from_n n =
+  let n_hydrogenes = 2 + (n * 2) in 
+  let n_carbons = n in
+  let carbon_atoms = List.map(fun _ -> carbon) (0--(n_carbons - 1)) in
+  let hydrogene_atoms = List.map(fun _ -> hydrogene) (0--(n_hydrogenes - 1)) in
+  carbon_atoms @ hydrogene_atoms
+
+class virtual alkane n name =
+  object (this)
+    inherit Molecule.molecule (atoms_from_n n) name
+    val atoms_from_n =
+      let n_hydrogenes = 2 + (n * 2) in 
+      let n_carbons = n in
       let carbon_atoms = List.map(fun _ -> carbon) (0--(n_carbons - 1)) in
       let hydrogene_atoms = List.map(fun _ -> hydrogene) (0--(n_hydrogenes - 1)) in
       carbon_atoms @ hydrogene_atoms
@@ -22,21 +26,15 @@ class virtual alkane =
 
 class methane =
 object
-  inherit alkane
-  method name = "Methane"
-  method n = 1
+  inherit alkane 1 "Methane" 
 end
 
 class ethane =
 object
-  inherit alkane
-  method name = "Ethane"
-  method n = 2
+  inherit alkane 2 "Ethane"
 end
 
 class octane =
 object
-  inherit alkane
-  method name = "Octane"
-  method n = 8
+  inherit alkane 8 "Octane"
 end
