@@ -42,26 +42,26 @@ struct
       match l with
         | h::t ->
           begin
-            let val_maybe = List.find_opt (fun e -> e = h) l in
+            let val_maybe = List.find_opt (fun e -> e = h) t in
             match val_maybe with
               | Some e -> inter_aux t acc @ [e]
               | _ -> inter_aux t acc
           end
         | [] -> acc in
       inter_aux (la @ lb) []
- 
+
   let diff la lb =
-    let rec diff_aux l acc =
-      match l with
+    let rec diff_aux la lb acc =
+      match la with
         | h::t ->
           begin
-            let val_maybe = List.find_opt (fun e -> e = h) l in
+            let val_maybe = List.find_opt (fun e -> e = h) lb in
             match val_maybe with
-              | None -> diff_aux t acc @ [h]
-              | _ -> diff_aux t acc
+              | None -> diff_aux t lb acc @ [h]
+              | _ -> diff_aux t lb acc
           end
         | [] -> acc in
-      diff_aux (la @ lb) []
+      (diff_aux la lb []) @ (diff_aux lb la [])
 
   let filter elem predicate = List.filter predicate elem
   let foreach elem fn = List.iter fn elem
