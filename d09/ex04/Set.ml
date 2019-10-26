@@ -44,7 +44,7 @@ struct
           begin
             let val_maybe = List.find_opt (fun e -> e = h) t in
             match val_maybe with
-              | Some e -> inter_aux t acc @ [e]
+              | Some e -> inter_aux t (acc @ [h])
               | _ -> inter_aux t acc
           end
         | [] -> acc in
@@ -57,7 +57,7 @@ struct
           begin
             let val_maybe = List.find_opt (fun e -> e = h) lb in
             match val_maybe with
-              | None -> diff_aux t lb acc @ [h]
+              | None -> diff_aux t lb (acc @ [h])
               | _ -> diff_aux t lb acc
           end
         | [] -> acc in
